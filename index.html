@@ -1,43 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Personal Webpage</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Contact Form and To-Do List</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <h1>Welcome to My Webpage</h1>
+    <header>
+        <h1>My Task 2 Project</h1>
+        <p>Contact Form and To-Do List</p>
+    </header>
 
-    <p>Hello! My name is Ashritha.</p>
-    <p>I am learning Web Development using HTML, CSS and JavaScript.</p>
+    <main class="container">
 
-    <img src="c:\Users\ashri\OneDrive\Pictures\ashu2.jpg" alt="My Image">
+        <!-- Contact Form -->
+        <section class="card">
+            <h2>Contact Form</h2>
 
-    <h2>About Me</h2>
+            <form id="contactForm">
 
-    <p>
-        I am interested in technology and web development.
-        I enjoy learning new skills and creating simple websites.
-    </p>
+                <label for="name">Name:</label>
+                <input type="text" id="name" placeholder="Enter your name">
 
-    <h2>My Interests</h2>
+                <label for="email">Email:</label>
+                <input type="text" id="email" placeholder="Enter your email">
 
-    <ul>
-        <li>Web Development</li>
-        <li>JavaScript</li>
-        <li>Learning New Technologies</li>
-    </ul>
+                <label for="message">Message:</label>
+                <textarea id="message" placeholder="Enter your message"></textarea>
 
-    <h2>Useful Link</h2>
+                <button type="submit">Submit</button>
 
-    <a href="https://www.google.com" target="_blank">
-        Visit Google
-    </a>
+                <p id="formMessage"></p>
 
-    <br><br>
+            </form>
+        </section>
 
-    <button onclick="showMessage()">Click Me</button>
+        <!-- To-Do List -->
+        <section class="card">
+            <h2>My To-Do List</h2>
+
+            <div class="todo-input">
+                <input type="text" id="taskInput" placeholder="Enter a task">
+                <button id="addTask">Add Task</button>
+            </div>
+
+            <ul id="taskList"></ul>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Created by Ashritha | ApexPlanet Internship</p>
+    </footer>
 
     <script src="script.js"></script>
 

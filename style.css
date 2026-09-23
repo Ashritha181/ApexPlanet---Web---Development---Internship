@@ -1,39 +1,121 @@
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: lightblue;
-    margin: 40px;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-h1 {
-    color: darkblue;
+body {
+    font-family: Arial, sans-serif;
+    background: #f2f4f7;
+    color: #333;
+}
+
+header {
+    text-align: center;
+    background: #333;
+    color: white;
+    padding: 25px;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px #ccc;
 }
 
 h2 {
-    color: darkgreen;
+    margin-bottom: 20px;
 }
 
-p {
-    font-size: 18px;
+label {
+    display: block;
+    margin-top: 12px;
 }
 
-img {
-    width: 200px;
-    border-radius: 10px;
+input,
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
-ul {
-    list-style-position: inside;
-    font-size: 18px;
-}
-
-a {
-    color: blue;
-    font-size: 18px;
+textarea {
+    height: 100px;
+    resize: vertical;
 }
 
 button {
-    padding: 10px 20px;
-    font-size: 16px;
+    background: #333;
+    color: white;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
+    margin-top: 15px;
+}
+
+button:hover {
+    background: #555;
+}
+
+#formMessage {
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.todo-input {
+    display: flex;
+    gap: 10px;
+}
+
+.todo-input input {
+    flex: 1;
+}
+
+#taskList {
+    list-style: none;
+    margin-top: 20px;
+}
+
+#taskList li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #eee;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+}
+
+.delete-btn {
+    background: crimson;
+    margin-top: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    .todo-input {
+        flex-direction: column;
+    }
+
+    .todo-input button {
+        width: 100%;
+    }
 }
