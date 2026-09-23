@@ -1,6 +1,15 @@
-// ============================
-// TO-DO LIST WITH LOCAL STORAGE
-// ============================
+// ===============================
+// Welcome Button
+// ===============================
+
+function showWelcome() {
+    alert("Welcome to Ashritha's Portfolio!");
+}
+
+
+// ===============================
+// To-Do List with Local Storage
+// ===============================
 
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
@@ -16,13 +25,10 @@ function displayTasks() {
 
         li.innerHTML = `
             <span>${task}</span>
-            <button onclick="deleteTask(${index})">
-                Delete
-            </button>
+            <button onclick="deleteTask(${index})">Delete</button>
         `;
 
         taskList.appendChild(li);
-
     });
 }
 
@@ -58,14 +64,13 @@ function deleteTask(index) {
 }
 
 
-// Display saved tasks when page opens
+// Display saved tasks when page loads
 displayTasks();
 
 
-
-// ============================
-// PRODUCT LISTING
-// ============================
+// ===============================
+// Product Data
+// ===============================
 
 const products = [
 
@@ -114,7 +119,13 @@ const products = [
 ];
 
 
+// ===============================
+// Display Products
+// ===============================
+
 function displayProducts() {
+
+    const productList = document.getElementById("productList");
 
     const category =
         document.getElementById("categoryFilter").value;
@@ -122,29 +133,28 @@ function displayProducts() {
     const sort =
         document.getElementById("sortFilter").value;
 
+
     let filteredProducts = [...products];
 
 
-    // Category filtering
-
+    // Category Filter
     if (category !== "all") {
 
-        filteredProducts =
-            filteredProducts.filter(function(product) {
+        filteredProducts = filteredProducts.filter(function(product) {
 
-                return product.category === category;
+            return product.category === category;
 
-            });
-
+        });
     }
 
 
     // Sorting
-
     if (sort === "priceLow") {
 
         filteredProducts.sort(function(a, b) {
+
             return a.price - b.price;
+
         });
 
     }
@@ -152,7 +162,9 @@ function displayProducts() {
     else if (sort === "priceHigh") {
 
         filteredProducts.sort(function(a, b) {
+
             return b.price - a.price;
+
         });
 
     }
@@ -160,34 +172,28 @@ function displayProducts() {
     else if (sort === "rating") {
 
         filteredProducts.sort(function(a, b) {
-            return b.rating - a.rating;
-        });
 
+            return b.rating - a.rating;
+
+        });
     }
 
 
-    // Display products
-
-    const productList =
-        document.getElementById("productList");
-
+    // Clear old products
     productList.innerHTML = "";
 
 
+    // Display products
     filteredProducts.forEach(function(product) {
 
-        const card =
-            document.createElement("div");
+        const card = document.createElement("div");
 
         card.className = "product-card";
 
         card.innerHTML = `
             <h3>${product.name}</h3>
-
             <p>Category: ${product.category}</p>
-
             <p>Price: ₹${product.price}</p>
-
             <p>Rating: ⭐ ${product.rating}</p>
         `;
 
@@ -198,7 +204,9 @@ function displayProducts() {
 }
 
 
-// Filter and sort events
+// ===============================
+// Product Filter Events
+// ===============================
 
 document
     .getElementById("categoryFilter")
@@ -209,6 +217,5 @@ document
     .addEventListener("change", displayProducts);
 
 
-// Display products when page opens
-
+// Display products when page loads
 displayProducts();
