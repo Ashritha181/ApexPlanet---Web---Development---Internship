@@ -1,131 +1,214 @@
-const cityInput = document.getElementById("cityInput");
-const searchBtn = document.getElementById("searchBtn");
-const weatherResult = document.getElementById("weatherResult");
+// ============================
+// TO-DO LIST WITH LOCAL STORAGE
+// ============================
 
-searchBtn.addEventListener("click", async function() {
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-    const city = cityInput.value.trim();
+function displayTasks() {
 
-    if (city === "") {
-        weatherResult.textContent = "Please enter a city name.";
+    const taskList = document.getElementById("taskList");
+
+    taskList.innerHTML = "";
+
+    tasks.forEach(function(task, index) {
+
+        const li = document.createElement("li");
+
+        li.innerHTML = `
+            <span>${task}</span>
+            <button onclick="deleteTask(${index})">
+                Delete
+            </button>
+        `;
+
+        taskList.appendChild(li);
+
+    });
+}
+
+
+function addTask() {
+
+    const input = document.getElementById("taskInput");
+
+    const task = input.value.trim();
+
+    if (task === "") {
+        alert("Please enter a task.");
         return;
     }
 
-    weatherResult.textContent = "Loading...";
+    tasks.push(task);
 
-    try {
-        // Get city coordinates
-        const locationResponse = await fetch(
-            `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en&format=json`
-        );
+    localStorage.setItem("tasks", JSON.stringify(tasks));
 
-        if (!locationResponse.ok) {
-            throw new Error("Location request failed");
-        }
+    input.value = "";
 
-        const locationData = await locationResponse.json();
+    displayTasks();
+}
 
-        if (!locationData.results || locationData.results.length === 0) {
-            weatherResult.textContent = "City not found.";
-            return;
-        }
 
-        const place = locationData.results[0];
+function deleteTask(index) {
 
-        // Get current weather
-        const weatherResponse = await fetch(
-            `https://api.open-meteo.com/v1/forecast?latitude=${place.latitude}&longitude=${place.longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m&timezone=auto`
-        );
+    tasks.splice(index, 1);
 
-        if (!weatherResponse.ok) {
-            throw new Error("Weather request failed");
-        }
+    localStorage.setItem("tasks", JSON.stringify(tasks));
 
-        const weatherData = await weatherResponse.json();
+    displayTasks();
+}
 
-        const current = weatherData.current;
 
-        weatherResult.innerHTML = `
-            <h3>${place.name}, ${place.country}</h3>
-            <p>🌡️ Temperature: ${current.temperature_2m} °C</p>
-            <p>💧 Humidity: ${current.relative_humidity_2m}%</p>
-            <p>💨 Wind Speed: ${current.wind_speed_10m} km/h</p>
-        `;
+// Display saved tasks when page opens
+displayTasks();
 
-    } catch (error) {
-        weatherResult.textContent =
-            "Unable to fetch weather. Check your internet connection.";
+
+
+// ============================
+// PRODUCT LISTING
+// ============================
+
+const products = [
+
+    {
+        name: "Smartphone",
+        category: "electronics",
+        price: 15000,
+        rating: 4.5
+    },
+
+    {
+        name: "Headphones",
+        category: "electronics",
+        price: 2500,
+        rating: 4.2
+    },
+
+    {
+        name: "T-Shirt",
+        category: "fashion",
+        price: 800,
+        rating: 4.0
+    },
+
+    {
+        name: "Jeans",
+        category: "fashion",
+        price: 1500,
+        rating: 4.3
+    },
+
+    {
+        name: "JavaScript Book",
+        category: "books",
+        price: 600,
+        rating: 4.7
+    },
+
+    {
+        name: "HTML Book",
+        category: "books",
+        price: 450,
+        rating: 4.1
     }
 
-});
-// Interactive Quiz
-
-let currentQuestion = 0;
-
-const questions = [
-    {
-        question: "What does HTML stand for?",
-        answers: {
-            a: "Hyper Text Markup Language",
-            b: "High Text Machine Language",
-            c: "Hyperlink Text Management Language"
-        },
-        correct: "a"
-    },
-    {
-        question: "Which language is used for styling webpages?",
-        answers: {
-            a: "HTML",
-            b: "CSS",
-            c: "Python"
-        },
-        correct: "b"
-    },
-    {
-        question: "Which language adds interactivity to webpages?",
-        answers: {
-            a: "JavaScript",
-            b: "SQL",
-            c: "C"
-        },
-        correct: "a"
-    }
 ];
 
-function checkAnswer(answer) {
 
-    const result = document.getElementById("quizResult");
+function displayProducts() {
 
-    if (answer === questions[currentQuestion].correct) {
-        result.textContent = "Correct answer! 🎉";
-    } else {
-        result.textContent = "Wrong answer. Try again!";
+    const category =
+        document.getElementById("categoryFilter").value;
+
+    const sort =
+        document.getElementById("sortFilter").value;
+
+    let filteredProducts = [...products];
+
+
+    // Category filtering
+
+    if (category !== "all") {
+
+        filteredProducts =
+            filteredProducts.filter(function(product) {
+
+                return product.category === category;
+
+            });
+
     }
+
+
+    // Sorting
+
+    if (sort === "priceLow") {
+
+        filteredProducts.sort(function(a, b) {
+            return a.price - b.price;
+        });
+
+    }
+
+    else if (sort === "priceHigh") {
+
+        filteredProducts.sort(function(a, b) {
+            return b.price - a.price;
+        });
+
+    }
+
+    else if (sort === "rating") {
+
+        filteredProducts.sort(function(a, b) {
+            return b.rating - a.rating;
+        });
+
+    }
+
+
+    // Display products
+
+    const productList =
+        document.getElementById("productList");
+
+    productList.innerHTML = "";
+
+
+    filteredProducts.forEach(function(product) {
+
+        const card =
+            document.createElement("div");
+
+        card.className = "product-card";
+
+        card.innerHTML = `
+            <h3>${product.name}</h3>
+
+            <p>Category: ${product.category}</p>
+
+            <p>Price: ₹${product.price}</p>
+
+            <p>Rating: ⭐ ${product.rating}</p>
+        `;
+
+        productList.appendChild(card);
+
+    });
 
 }
 
-function nextQuestion() {
 
-    currentQuestion++;
+// Filter and sort events
 
-    if (currentQuestion >= questions.length) {
-        currentQuestion = 0;
-    }
+document
+    .getElementById("categoryFilter")
+    .addEventListener("change", displayProducts);
 
-    document.getElementById("question").textContent =
-        questions[currentQuestion].question;
+document
+    .getElementById("sortFilter")
+    .addEventListener("change", displayProducts);
 
-    const buttons = document.querySelectorAll(".quiz-card button");
 
-    buttons[0].textContent =
-        "A. " + questions[currentQuestion].answers.a;
+// Display products when page opens
 
-    buttons[1].textContent =
-        "B. " + questions[currentQuestion].answers.b;
-
-    buttons[2].textContent =
-        "C. " + questions[currentQuestion].answers.c;
-
-    document.getElementById("quizResult").textContent = "";
-
-}
+displayProducts();
