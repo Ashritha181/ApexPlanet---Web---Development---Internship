@@ -1,71 +1,131 @@
-// Contact Form Validation
+const cityInput = document.getElementById("cityInput");
+const searchBtn = document.getElementById("searchBtn");
+const weatherResult = document.getElementById("weatherResult");
 
-const contactForm = document.getElementById("contactForm");
+searchBtn.addEventListener("click", async function() {
 
-contactForm.addEventListener("submit", function(event) {
+    const city = cityInput.value.trim();
 
-    event.preventDefault();
-
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const message = document.getElementById("message").value.trim();
-
-    const formMessage = document.getElementById("formMessage");
-
-    if (name === "" || email === "" || message === "") {
-        formMessage.textContent = "Please fill all fields.";
-        formMessage.style.color = "red";
+    if (city === "") {
+        weatherResult.textContent = "Please enter a city name.";
         return;
     }
 
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    weatherResult.textContent = "Loading...";
 
-    if (!emailPattern.test(email)) {
-        formMessage.textContent = "Please enter a valid email.";
-        formMessage.style.color = "red";
-        return;
+    try {
+        // Get city coordinates
+        const locationResponse = await fetch(
+            `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en&format=json`
+        );
+
+        if (!locationResponse.ok) {
+            throw new Error("Location request failed");
+        }
+
+        const locationData = await locationResponse.json();
+
+        if (!locationData.results || locationData.results.length === 0) {
+            weatherResult.textContent = "City not found.";
+            return;
+        }
+
+        const place = locationData.results[0];
+
+        // Get current weather
+        const weatherResponse = await fetch(
+            `https://api.open-meteo.com/v1/forecast?latitude=${place.latitude}&longitude=${place.longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m&timezone=auto`
+        );
+
+        if (!weatherResponse.ok) {
+            throw new Error("Weather request failed");
+        }
+
+        const weatherData = await weatherResponse.json();
+
+        const current = weatherData.current;
+
+        weatherResult.innerHTML = `
+            <h3>${place.name}, ${place.country}</h3>
+            <p>🌡️ Temperature: ${current.temperature_2m} °C</p>
+            <p>💧 Humidity: ${current.relative_humidity_2m}%</p>
+            <p>💨 Wind Speed: ${current.wind_speed_10m} km/h</p>
+        `;
+
+    } catch (error) {
+        weatherResult.textContent =
+            "Unable to fetch weather. Check your internet connection.";
     }
-
-    formMessage.textContent = "Form submitted successfully!";
-    formMessage.style.color = "green";
-
-    contactForm.reset();
 
 });
+// Interactive Quiz
 
+let currentQuestion = 0;
 
-// Dynamic To-Do List
+const questions = [
+    {
+        question: "What does HTML stand for?",
+        answers: {
+            a: "Hyper Text Markup Language",
+            b: "High Text Machine Language",
+            c: "Hyperlink Text Management Language"
+        },
+        correct: "a"
+    },
+    {
+        question: "Which language is used for styling webpages?",
+        answers: {
+            a: "HTML",
+            b: "CSS",
+            c: "Python"
+        },
+        correct: "b"
+    },
+    {
+        question: "Which language adds interactivity to webpages?",
+        answers: {
+            a: "JavaScript",
+            b: "SQL",
+            c: "C"
+        },
+        correct: "a"
+    }
+];
 
-const taskInput = document.getElementById("taskInput");
-const addTask = document.getElementById("addTask");
-const taskList = document.getElementById("taskList");
+function checkAnswer(answer) {
 
-addTask.addEventListener("click", function() {
+    const result = document.getElementById("quizResult");
 
-    const taskText = taskInput.value.trim();
-
-    if (taskText === "") {
-        alert("Please enter a task.");
-        return;
+    if (answer === questions[currentQuestion].correct) {
+        result.textContent = "Correct answer! 🎉";
+    } else {
+        result.textContent = "Wrong answer. Try again!";
     }
 
-    const li = document.createElement("li");
+}
 
-    li.textContent = taskText;
+function nextQuestion() {
 
-    const deleteButton = document.createElement("button");
+    currentQuestion++;
 
-    deleteButton.textContent = "Delete";
-    deleteButton.className = "delete-btn";
+    if (currentQuestion >= questions.length) {
+        currentQuestion = 0;
+    }
 
-    deleteButton.addEventListener("click", function() {
-        li.remove();
-    });
+    document.getElementById("question").textContent =
+        questions[currentQuestion].question;
 
-    li.appendChild(deleteButton);
+    const buttons = document.querySelectorAll(".quiz-card button");
 
-    taskList.appendChild(li);
+    buttons[0].textContent =
+        "A. " + questions[currentQuestion].answers.a;
 
-    taskInput.value = "";
+    buttons[1].textContent =
+        "B. " + questions[currentQuestion].answers.b;
 
-});
+    buttons[2].textContent =
+        "C. " + questions[currentQuestion].answers.c;
+
+    document.getElementById("quizResult").textContent = "";
+
+}

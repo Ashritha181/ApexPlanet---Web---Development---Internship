@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Contact Form and To-Do List</title>
+    <title>Weather App</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -12,52 +12,56 @@
 <body>
 
     <header>
-        <h1>My Task 2 Project</h1>
-        <p>Contact Form and To-Do List</p>
+        <h1>My Weather App</h1>
+        <p>Check the current weather</p>
     </header>
 
     <main class="container">
 
-        <!-- Contact Form -->
-        <section class="card">
-            <h2>Contact Form</h2>
+        <section class="weather-card">
 
-            <form id="contactForm">
+            <h2>Weather Information</h2>
 
-                <label for="name">Name:</label>
-                <input type="text" id="name" placeholder="Enter your name">
+            <input
+                type="text"
+                id="cityInput"
+                placeholder="Enter city name"
+            >
 
-                <label for="email">Email:</label>
-                <input type="text" id="email" placeholder="Enter your email">
+            <button id="searchBtn">Search Weather</button>
 
-                <label for="message">Message:</label>
-                <textarea id="message" placeholder="Enter your message"></textarea>
-
-                <button type="submit">Submit</button>
-
-                <p id="formMessage"></p>
-
-            </form>
-        </section>
-
-        <!-- To-Do List -->
-        <section class="card">
-            <h2>My To-Do List</h2>
-
-            <div class="todo-input">
-                <input type="text" id="taskInput" placeholder="Enter a task">
-                <button id="addTask">Add Task</button>
+            <div id="weatherResult">
+                <p>Enter a city to check its weather.</p>
             </div>
 
-            <ul id="taskList"></ul>
+        </section>
+
+            <!-- Interactive Quiz -->
+        <section class="quiz-card">
+
+            <h2>Web Development Quiz</h2>
+
+            <p id="question">What does HTML stand for?</p>
+
+            <button onclick="checkAnswer('a')">
+                A. Hyper Text Markup Language
+            </button>
+
+            <button onclick="checkAnswer('b')">
+                B. High Text Machine Language
+            </button>
+
+            <button onclick="checkAnswer('c')">
+                C. Hyperlink Text Management Language
+            </button>
+
+            <p id="quizResult"></p>
+
+            <button onclick="nextQuestion()">Next Question</button>
 
         </section>
 
     </main>
-
-    <footer>
-        <p>Created by Ashritha | ApexPlanet Internship</p>
-    </footer>
 
     <script src="script.js"></script>
 
