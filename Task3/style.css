@@ -1,0 +1,108 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f2f4f7;
+    color: #333;
+}
+
+header {
+    text-align: center;
+    background: #333;
+    color: white;
+    padding: 30px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.weather-card {
+    background: white;
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px #ccc;
+    text-align: center;
+}
+
+.weather-card h2 {
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+button {
+    padding: 12px 20px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #555;
+}
+
+#weatherResult {
+    margin-top: 25px;
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+/* Responsive Design */
+
+@media (max-width: 600px) {
+
+    .weather-card {
+        padding: 20px;
+    }
+
+    header h1 {
+        font-size: 24px;
+    }
+
+    .container {
+        padding: 20px 10px;
+    }
+}
+/* Quiz Styling */
+
+.quiz-card {
+    background: white;
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px #ccc;
+    text-align: center;
+}
+
+.quiz-card h2 {
+    margin-bottom: 20px;
+}
+
+.quiz-card button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+}
+
+#quizResult {
+    margin: 15px 0;
+    font-weight: bold;
+}
